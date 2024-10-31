@@ -22,8 +22,19 @@ public class SucursalController {
         return new ResponseEntity<>(nuevaSucursal, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}/nombre")
+    public ResponseEntity<Sucursal> actualizarNombre(@PathVariable Long id, @RequestParam String nuevoNombre) {
+        Sucursal actualizada = sucursalService.actualizarNombre(id, nuevoNombre);
+        return ResponseEntity.ok(actualizada);
+    }
+
     @ExceptionHandler(FranquiciaNoEncontradaException.class)
     public ResponseEntity<String> handleFranquiciaNoEncontrada(FranquiciaNoEncontradaException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

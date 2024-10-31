@@ -29,4 +29,12 @@ public class SucursalServiceImpl implements SucursalService {
 
         return sucursalRepository.save(sucursal);
     }
+
+    @Override
+    public Sucursal actualizarNombre(Long id, String nuevoNombre) {
+        Sucursal sucursal = sucursalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada con ID: " + id));
+        sucursal.setNombre(nuevoNombre);
+        return sucursalRepository.save(sucursal);
+    }
 }

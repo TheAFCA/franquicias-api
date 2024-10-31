@@ -19,4 +19,12 @@ public class FranquiciaServiceImpl implements FranquiciaService {
         franquicia.setNombre(franquiciaDTO.getNombre());
         return franquiciaRepository.save(franquicia);
     }
+
+    @Override
+    public Franquicia actualizarNombre(Long id, String nuevoNombre) {
+        Franquicia franquicia = franquiciaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Franquicia no encontrada"));
+        franquicia.setNombre(nuevoNombre);
+        return franquiciaRepository.save(franquicia);
+    }
 }

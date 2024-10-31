@@ -117,3 +117,87 @@ Este proyecto incluye un archivo `docker-compose.yml` que facilita la creación 
    - **Código 404:** Franquicia no encontrada.
    - **Código 500:** Error interno del servidor.
 
+---
+
+### PLUS. Actualizar nombre franquicia
+
+- **Método:** `PUT`
+- **URL:** `http://localhost:8080/api/franquicias/{id}?nuevoNombre=Prueba actualizar 11`
+- **Descripción:** Actualiza nombre de la franquicia.
+- **Responses:**
+  - **Código 200:** Actualización exito.
+  - **Código 404:** Franquicia no encontrado.
+  - **Código 500:** Error interno del servidor.
+
+---
+
+### PLUS. Actualizar nombre Sucursal
+
+- **Método:** `PUT`
+- **URL:** `http://localhost:8080/api/franquicias/{id}/nombre?nuevoNombre=Actualizacion nombre`
+- **Descripción:** Actualiza nombre de la sucursal.
+- **Responses:**
+  - **Código 200:** Actualización exito.
+  - **Código 404:** Sucursal no encontrado.
+  - **Código 500:** Error interno del servidor.
+
+---
+
+### PLUS. Actualizar nombre producto
+
+- **Método:** `PUT`
+- **URL:** `http://localhost:8080/api/franquicias/{id}/nombre?nuevoNombre=Actualizacion producto`
+- **Descripción:** Actualiza nombre de la sucursal.
+- **Responses:**
+  - **Código 200:** Actualización exito.
+  - **Código 404:** Producto no encontrado.
+  - **Código 500:** Error interno del servidor.
+
+---
+
+
+### Explicación de las tablas
+
+- **franquicia**: Almacena la información sobre las franquicias. Cada franquicia tiene un `id` único y un `nombre`.
+
+- **sucursal**: Almacena las sucursales asociadas a las franquicias. Cada sucursal tiene un `id` único, un `nombre`, y un `franquicia_id` que establece la relación con la tabla `franquicia`.
+
+- **producto**: Almacena la información de los productos. Cada producto tiene un `id` único, un `nombre`, un `stock`, y un `sucursal_id` que establece la relación con la tabla `sucursal`.
+
+### Instrucciones para ejecutar el script
+
+1. Abre tu cliente MySQL.
+2. Conéctate a la base de datos donde deseas crear las tablas.
+3. Ejecuta el script anterior.
+
+Esto debería hacer que tu README sea más claro y fácil de seguir. Si necesitas más ayuda o ajustes, ¡házmelo saber!
+
+---
+
+### Script para crear tablas en la base de datos
+
+Este script crea las tablas necesarias para la base de datos del proyecto **franquicias**. Asegúrate de ejecutar el script en la base de datos correcta.
+
+```sql
+USE franquicias;
+
+CREATE TABLE franquicia (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE sucursal (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    franquicia_id INT NOT NULL,
+    FOREIGN KEY (franquicia_id) REFERENCES franquicia(id) ON DELETE CASCADE
+);
+
+CREATE TABLE producto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    sucursal_id INT NOT NULL,
+    FOREIGN KEY (sucursal_id) REFERENCES sucursal(id) ON DELETE CASCADE
+);
+

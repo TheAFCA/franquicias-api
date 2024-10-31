@@ -19,4 +19,17 @@ public class FranquiciaController {
         Franquicia nuevaFranquicia = franquiciaService.createFranquicia(franquiciaDTO);
         return new ResponseEntity<>(nuevaFranquicia, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Franquicia> actualizarNombreFranquicia(
+            @PathVariable Long id,
+            @RequestParam String nuevoNombre) {
+        Franquicia franquiciaActualizada = franquiciaService.actualizarNombre(id, nuevoNombre);
+        return ResponseEntity.ok(franquiciaActualizada);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

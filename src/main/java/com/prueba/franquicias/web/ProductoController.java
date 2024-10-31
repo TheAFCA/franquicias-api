@@ -43,6 +43,12 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
+    @PutMapping("/{id}/nombre")
+    public ResponseEntity<Producto> actualizarNombre(@PathVariable Long id, @RequestParam String nuevoNombre) {
+        Producto actualizado = productoService.actualizarNombre(id, nuevoNombre);
+        return ResponseEntity.ok(actualizado);
+    }
+
     @ExceptionHandler(ProductoNoEncontradoException.class)
     public ResponseEntity<String> handleProductoNoEncontrado(ProductoNoEncontradoException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

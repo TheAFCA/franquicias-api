@@ -68,4 +68,12 @@ public class ProductoServiceImpl implements ProductoService {
         return productosConMayorStock;
     }
 
+    @Override
+    public Producto actualizarNombre(Long id, String nuevoNombre) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+        producto.setNombre(nuevoNombre);
+        return productoRepository.save(producto);
+    }
+
 }

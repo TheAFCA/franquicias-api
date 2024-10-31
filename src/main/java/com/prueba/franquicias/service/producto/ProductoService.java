@@ -10,4 +10,5 @@ public interface ProductoService {
     void deleteProducto(Long productoId);
     public Producto updateStock(Long productoId, ProductoDTO productoDTO);
     public List<Producto> getProductoConMayorStockPorFranquicia(Long franquiciaId);
+    public Producto actualizarNombre(Long id, String nuevoNombre);
 }
