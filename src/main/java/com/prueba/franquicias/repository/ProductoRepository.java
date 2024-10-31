@@ -4,4 +4,5 @@ import com.prueba.franquicias.model.entities.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
+    Producto findTopBySucursalIdOrderByStockDesc(Long sucursalId);
 }

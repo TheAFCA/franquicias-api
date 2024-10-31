@@ -1,5 +1,6 @@
 package com.prueba.franquicias.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,6 @@ public class Franquicia {
     private String nombre;
 
     @OneToMany(mappedBy = "franquicia", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Sucursal> sucursales = new ArrayList<>();
 }

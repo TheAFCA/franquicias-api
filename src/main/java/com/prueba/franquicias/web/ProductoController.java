@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoController {
@@ -29,6 +31,18 @@ public class ProductoController {
         return ResponseEntity.ok("Producto eliminado con éxito.");
     }
 
+    @PutMapping("/{productoId}/stock")
+    public ResponseEntity<Producto> updateProductStock(@PathVariable Long productoId, @RequestBody ProductoDTO productoDTO) {
+        Producto actualizado = productoService.updateStock(productoId, productoDTO);
+        return ResponseEntity.ok(actualizado);
+    }
+
+    @GetMapping("/{franquiciaId}/productos-mayor-stock")
+    public ResponseEntity<List<Producto>> getProductoConMayorStockPorFranquicia(@PathVariable Long franquiciaId) {
+        List<Producto> productos = productoService.getProductoConMayorStockPorFranquicia(franquiciaId);
+        return ResponseEntity.ok(productos);
+    }
+
     @ExceptionHandler(ProductoNoEncontradoException.class)
     public ResponseEntity<String> handleProductoNoEncontrado(ProductoNoEncontradoException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
@@ -36,6 +50,11 @@ public class ProductoController {
 
     @ExceptionHandler(SucursalNoEncontradaException.class)
     public ResponseEntity<String> handleSucursalNoEncontrada(SucursalNoEncontradaException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

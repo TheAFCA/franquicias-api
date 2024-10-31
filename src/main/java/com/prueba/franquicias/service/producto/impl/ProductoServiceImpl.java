@@ -11,6 +11,9 @@ import com.prueba.franquicias.service.producto.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProductoServiceImpl implements ProductoService {
     @Autowired
@@ -38,6 +41,31 @@ public class ProductoServiceImpl implements ProductoService {
             throw new ProductoNoEncontradoException("Producto con ID " + productoId + " no encontrado.");
         }
         productoRepository.deleteById(productoId);
+    }
+
+    @Override
+    public Producto updateStock(Long productoId, ProductoDTO productoDTO) {
+        Producto producto = productoRepository.findById(productoId)
+                .orElseThrow(() -> new RuntimeException("Producto con ID " + productoId + " no encontrado."));
+
+        producto.setStock(productoDTO.getStock());
+        return productoRepository.save(producto);
+    }
+
+    @Override
+    public List<Producto> getProductoConMayorStockPorFranquicia(Long franquiciaId) {
+        List<Sucursal> sucursales = sucursalRepository.findByFranquiciaId(franquiciaId);
+
+        List<Producto> productosConMayorStock = new ArrayList<>();
+
+        for (Sucursal sucursal : sucursales) {
+            Producto productoMayorStock = productoRepository.findTopBySucursalIdOrderByStockDesc(sucursal.getId());
+            if (productoMayorStock != null) {
+                productosConMayorStock.add(productoMayorStock);
+            }
+        }
+
+        return productosConMayorStock;
     }
 
 }

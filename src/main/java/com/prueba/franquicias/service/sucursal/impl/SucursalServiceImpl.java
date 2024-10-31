@@ -25,7 +25,7 @@ public class SucursalServiceImpl implements SucursalService {
 
         Sucursal sucursal = new Sucursal();
         sucursal.setNombre(sucursalDTO.getNombre());
-        sucursal.setFranquicia(franquicia); // Establecer la franquicia
+        sucursal.setFranquicia(franquicia);
 
         return sucursalRepository.save(sucursal);
     }
