@@ -10,6 +10,10 @@ API REST para gestionar franquicias, sucursales y productos, permitiendo la crea
 - MySQL (o cualquier otro gestor de base de datos que uses)
 - Maven
 
+## Ejecutar el Proyecto con Docker
+
+Este proyecto incluye un archivo `docker-compose.yml` que facilita la creación y ejecución de los contenedores necesarios para la aplicación y la base de datos.
+
 ## Configuración
 
 1. Clona el repositorio:
