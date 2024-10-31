@@ -1,5 +1,7 @@
 package com.prueba.franquicias.service.producto.impl;
 
+import com.prueba.franquicias.exception.ProductoNoEncontradoException;
+import com.prueba.franquicias.exception.SucursalNoEncontradaException;
 import com.prueba.franquicias.generic.ProductoDTO;
 import com.prueba.franquicias.model.entities.Producto;
 import com.prueba.franquicias.model.entities.Sucursal;
@@ -20,7 +22,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Producto addProductoToSucursal(ProductoDTO productoDTO) {
         Sucursal sucursal = sucursalRepository.findById(productoDTO.getSucursalId())
-                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
+                .orElseThrow(() -> new SucursalNoEncontradaException("Sucursal con ID " + productoDTO.getSucursalId() + " no encontrada."));
 
         Producto producto = new Producto();
         producto.setNombre(productoDTO.getNombre());
@@ -29,4 +31,13 @@ public class ProductoServiceImpl implements ProductoService {
 
         return productoRepository.save(producto);
     }
+
+    @Override
+    public void deleteProducto(Long productoId) {
+        if (!productoRepository.existsById(productoId)) {
+            throw new ProductoNoEncontradoException("Producto con ID " + productoId + " no encontrado.");
+        }
+        productoRepository.deleteById(productoId);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.prueba.franquicias.web;
 
+import com.prueba.franquicias.exception.FranquiciaNoEncontradaException;
 import com.prueba.franquicias.generic.SucursalDTO;
 import com.prueba.franquicias.model.entities.Sucursal;
 import com.prueba.franquicias.service.sucursal.SucursalService;
@@ -19,5 +20,10 @@ public class SucursalController {
         sucursalDTO.setFranquiciaId(franquiciaId);
         Sucursal nuevaSucursal = sucursalService.addSucursalToFranquicia(sucursalDTO);
         return new ResponseEntity<>(nuevaSucursal, HttpStatus.CREATED);
+    }
+
+    @ExceptionHandler(FranquiciaNoEncontradaException.class)
+    public ResponseEntity<String> handleFranquiciaNoEncontrada(FranquiciaNoEncontradaException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

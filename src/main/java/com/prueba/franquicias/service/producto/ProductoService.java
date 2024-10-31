@@ -5,4 +5,5 @@ import com.prueba.franquicias.model.entities.Producto;
 
 public interface ProductoService {
     Producto addProductoToSucursal(ProductoDTO productoDTO);
+    void deleteProducto(Long productoId);
 }

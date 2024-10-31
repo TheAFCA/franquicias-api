@@ -1,5 +1,7 @@
 package com.prueba.franquicias.web;
 
+import com.prueba.franquicias.exception.ProductoNoEncontradoException;
+import com.prueba.franquicias.exception.SucursalNoEncontradaException;
 import com.prueba.franquicias.generic.ProductoDTO;
 import com.prueba.franquicias.model.entities.Producto;
 import com.prueba.franquicias.service.producto.ProductoService;
@@ -19,5 +21,21 @@ public class ProductoController {
         productoDTO.setSucursalId(sucursalId);
         Producto nuevoProducto = productoService.addProductoToSucursal(productoDTO);
         return new ResponseEntity<>(nuevoProducto, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{productoId}")
+    public ResponseEntity<String> deleteProducto(@PathVariable Long productoId) {
+        productoService.deleteProducto(productoId);
+        return ResponseEntity.ok("Producto eliminado con éxito.");
+    }
+
+    @ExceptionHandler(ProductoNoEncontradoException.class)
+    public ResponseEntity<String> handleProductoNoEncontrado(ProductoNoEncontradoException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(SucursalNoEncontradaException.class)
+    public ResponseEntity<String> handleSucursalNoEncontrada(SucursalNoEncontradaException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }
