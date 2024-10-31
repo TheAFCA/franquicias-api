@@ -19,6 +19,10 @@ public class Sucursal {
 
     private String nombre;
 
+    @ManyToOne
+    @JoinColumn(name = "franquicia_id", nullable = false) // Relación con Franquicia
+    private Franquicia franquicia;
+
     @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Producto> productos = new ArrayList<>();
 }
